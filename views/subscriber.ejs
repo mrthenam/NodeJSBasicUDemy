@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header'); -%>
+    <body id="page-top">
+        <!-- Navigation-->
+        <%- include('layouts/navbar'); -%>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        <h1 class="mx-auto my-0 text-uppercase">Grayscale</h1>
+                        <h2 class="text-white-50 mx-auto mt-2 mb-5">A free, responsive, one page Bootstrap theme created by Start Bootstrap.</h2>
+                        <a class="btn btn-primary" href="#about">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <section id="subscriber">
+            <div class="container">
+                <form
+                        action="/subscriber"
+                        method="GET"
+                        class="form-inline d-flex mt-3"
+                        >
+                        <input
+                            class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0"
+                            id="inputEmail"
+                            type="text"
+                            name="email"
+                            placeholder="Enter email address..."
+                        />
+                        <button class="btn btn-primary mx-auto" type="submit">
+                            Search
+                        </button>
+                        </form>
+                <h1>Subscribers List</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Register Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (var i = 0; i < subscribers.length; i++){ %>
+                        <tr>
+                            <th scope="row"><%= i + 1 %></th>
+                            <td><%= subscribers[i].email %></td> 
+                            <td><%= subscribers[i].registerDate %></td> 
+                        </tr>
+                        <% }%>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- Footer-->
+        <%- include('layouts/footer'); -%>
+        <!-- Bootstrap core JS-->
+        <%- include('layouts/scripts'); -%>
+    </body>
+</html>
