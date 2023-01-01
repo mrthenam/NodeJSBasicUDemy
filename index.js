@@ -26,6 +26,12 @@ webApp.use(cookieParser('secret'));
 webApp.use(session({ cookie: { maxAge: 60000 } }))
 webApp.use(flash())
 
+global.loggedIn = null;
+webApp.use("*", (req, res, next) => {
+  loggedIn = req.session.userId;
+  next()
+});
+
 webApp.listen(3000, () => {
   console.log('App listening on port 3000')
 })
@@ -46,8 +52,14 @@ webApp.post('/posts/store', async (req, res) => {
   res.redirect('/')
 })
 
+const loggedOutChecker = require('./middleware/loggedOutChecker')
+webApp.get('/subscriber', loggedOutChecker)
+
 const getSubscriberController = require('./controllers/getSubscriber')
 webApp.get('/subscriber', getSubscriberController)
+
+const loggedInChecker = require('./middleware/loggedInChecker')
+webApp.get('/registerNewUser', loggedInChecker)
 
 const registerNewUserController = require('./controllers/registerNewUser')
 webApp.get('/registerNewUser', registerNewUserController)
@@ -71,8 +83,15 @@ webApp.use('/posts/storeUser', newUserValidator)
 const createUserController = require('./controllers/createUser')
 webApp.post('/posts/storeUser', createUserController)
 
+webApp.get('/login', loggedInChecker)
+
 const loginController = require('./controllers/login')
 webApp.get('/login', loginController)
 
 const authenticateUserController = require('./controllers/authenticateUser')
 webApp.post('/authenticateUser', authenticateUserController)
+
+webApp.get('/logout', loggedOutChecker)
+
+const logoutController = require('./controllers/logout')
+webApp.get('/logout', logoutController)
